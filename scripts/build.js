@@ -10,12 +10,13 @@ import { globby } from 'globby';
 import open from 'open';
 import copy from 'recursive-copy';
 
-const { bundle, copydir, dir, serve, types } = commandLineArgs([
+const { bundle, copydir, dir, serve, types, nutria } = commandLineArgs([
   { name: 'bundle', type: Boolean },
   { name: 'copydir', type: String },
   { name: 'dir', type: String, defaultValue: 'dist' },
   { name: 'serve', type: Boolean },
-  { name: 'types', type: Boolean }
+  { name: 'types', type: Boolean },
+  { name: 'nutria', type: Boolean }
 ]);
 
 const outdir = dir;
@@ -25,10 +26,12 @@ fs.mkdirSync(outdir, { recursive: true });
 
 (async () => {
   try {
-    execSync(`node scripts/make-metadata.js --outdir "${outdir}"`, { stdio: 'inherit' });
-    execSync(`node scripts/make-search.js --outdir "${outdir}"`, { stdio: 'inherit' });
-    execSync(`node scripts/make-react.js --outdir "${outdir}"`, { stdio: 'inherit' });
-    execSync(`node scripts/make-web-types.js --outdir "${outdir}"`, { stdio: 'inherit' });
+    if (!nutria) {
+      execSync(`node scripts/make-metadata.js --outdir "${outdir}"`, { stdio: 'inherit' });
+      execSync(`node scripts/make-search.js --outdir "${outdir}"`, { stdio: 'inherit' });
+      execSync(`node scripts/make-react.js --outdir "${outdir}"`, { stdio: 'inherit' });
+      execSync(`node scripts/make-web-types.js --outdir "${outdir}"`, { stdio: 'inherit' });
+    }
     execSync(`node scripts/make-themes.js --outdir "${outdir}"`, { stdio: 'inherit' });
     execSync(`node scripts/make-icons.js --outdir "${outdir}"`, { stdio: 'inherit' });
     if (types) {
