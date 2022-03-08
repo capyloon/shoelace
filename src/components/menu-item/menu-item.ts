@@ -132,7 +132,7 @@ export default class SlMenuItem extends ShoelaceElement {
         })}
       >
         <span part="checked-icon" class="menu-item__check">
-          <sl-icon name="check" library="system" aria-hidden="true"></sl-icon>
+          <sl-icon name="check" library="default" aria-hidden="true"></sl-icon>
         </span>
 
         <slot name="prefix" part="prefix" class="menu-item__prefix"></slot>
