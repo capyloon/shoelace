@@ -83,6 +83,7 @@ fs.mkdirSync(outdir, { recursive: true });
         ? alwaysExternal
         : [...alwaysExternal, '@floating-ui/dom', '@shoelace-style/animations', 'lit', 'qr-creator'],
       splitting: true,
+      minify: true,
       plugins: []
     })
     .catch(err => {
