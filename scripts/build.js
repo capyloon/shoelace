@@ -31,9 +31,9 @@ fs.mkdirSync(outdir, { recursive: true });
       execSync(`node scripts/make-search.js --outdir "${outdir}"`, { stdio: 'inherit' });
       execSync(`node scripts/make-react.js --outdir "${outdir}"`, { stdio: 'inherit' });
       execSync(`node scripts/make-web-types.js --outdir "${outdir}"`, { stdio: 'inherit' });
+      execSync(`node scripts/make-icons.js --outdir "${outdir}"`, { stdio: 'inherit' });
     }
     execSync(`node scripts/make-themes.js --outdir "${outdir}"`, { stdio: 'inherit' });
-    execSync(`node scripts/make-icons.js --outdir "${outdir}"`, { stdio: 'inherit' });
     if (types) {
       console.log('Running the TypeScript compiler...');
       execSync(`tsc --project ./tsconfig.prod.json --outdir "${outdir}"`, { stdio: 'inherit' });
