@@ -196,9 +196,6 @@ export default class SlTreeItem extends ShoelaceElement {
   @watch('lazy', { waitUntilFirstUpdate: true })
   handleLazyChange() {
     this.emit('sl-lazy-change');
-    if (!this.lazy) {
-      this.loading = false;
-    }
   }
 
   /** Gets all the nested tree items in this node. */
