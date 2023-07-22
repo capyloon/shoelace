@@ -1,4 +1,4 @@
-import { getBasePath } from './utilities/base-path';
+import { getBasePath } from './utilities/base-path.js';
 
 const observer = new MutationObserver(mutations => {
   for (const { addedNodes } of mutations) {
@@ -45,9 +45,7 @@ function register(tagName: string): Promise<void> {
 
   // Register it
   return new Promise((resolve, reject) => {
-    import(path)
-      .then(() => resolve())
-      .catch(() => reject(new Error(`Unable to automatically load<${tagName}> from ${path}`)));
+    import(path).then(() => resolve()).catch(() => reject(new Error(`Unable to autoload <${tagName}> from ${path}`)));
   });
 }
 
@@ -55,4 +53,4 @@ function register(tagName: string): Promise<void> {
 discover(document.body);
 
 // Listen for new undefined elements
-observer.observe(document.body, { subtree: true, childList: true });
+observer.observe(document.documentElement, { subtree: true, childList: true });

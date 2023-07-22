@@ -1,9 +1,11 @@
 #!/bin/bash
 
-rm -rf dist
+rm -rf cdn
 npm run nutria
-du dist
+du cdn
+
+rm `fd d.ts cdn`
 
 rm -rf ../nutria/apps/shared/shoelace
-cp -r dist ../nutria/apps/shared
-mv ../nutria/apps/shared/dist ../nutria/apps/shared/shoelace
+cp -r cdn ../nutria/apps/shared
+mv ../nutria/apps/shared/cdn ../nutria/apps/shared/shoelace
