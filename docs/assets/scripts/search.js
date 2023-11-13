@@ -58,15 +58,15 @@
   const clearButton = siteSearch.querySelector('.search__clear-button');
   const results = siteSearch.querySelector('.search__results');
   const version = document.documentElement.getAttribute('data-shoelace-version');
-  const animationDuration = 150;
+  const key = `search_${version}`;
   const searchDebounce = 50;
+  const animationDuration = 150;
   let isShowing = false;
   let searchTimeout;
   let searchIndex;
   let map;
 
   const loadSearchIndex = new Promise(resolve => {
-    const key = `search_${version}`;
     const cache = localStorage.getItem(key);
     const wait = 'requestIdleCallback' in window ? requestIdleCallback : requestAnimationFrame;
 
@@ -357,6 +357,13 @@
     }
   });
 
+  // Purge cache when we press CMD+CTRL+R
+  document.addEventListener('keydown', event => {
+    if ((event.metaKey || event.ctrlKey) && event.shiftKey && event.key === 'r') {
+      localStorage.clear();
+    }
+  });
+
   input.addEventListener('input', handleInput);
   clearButton.addEventListener('click', handleClear);
 
@@ -365,5 +372,13 @@
     if (event.target.closest('a')) {
       hide();
     }
+  });
+
+  // We're using Turbo, so when a user searches for something, visits a result, and presses the back button, the search
+  // UI will still be visible but not interactive. This removes the search UI when Turbo renders a page so they don't
+  // get trapped.
+  window.addEventListener('turbo:render', () => {
+    document.body.classList.remove('search-visible');
+    document.querySelectorAll('.search__overlay, .search__dialog').forEach(el => el.remove());
   });
 })();

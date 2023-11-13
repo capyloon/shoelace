@@ -51,5 +51,7 @@ export default css`
     color: var(--sl-tooltip-color);
     padding: var(--sl-tooltip-padding);
     pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
   }
 `;

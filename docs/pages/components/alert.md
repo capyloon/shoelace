@@ -13,7 +13,8 @@ layout: component
 ```
 
 ```jsx:react
-import { SlAlert, SlIcon } from '@shoelace-style/shoelace/dist/react';
+import SlAlert from '@shoelace-style/shoelace/dist/react/alert';
+import SlIcon from '@shoelace-style/shoelace/dist/react/icon';
 
 const App = () => (
   <SlAlert open>
@@ -53,7 +54,7 @@ Set the `variant` attribute to change the alert's variant.
 <sl-alert variant="neutral" open>
   <sl-icon slot="icon" name="gear"></sl-icon>
   <strong>Your settings have been updated</strong><br />
-  Settings will take affect on next login.
+  Settings will take effect on next login.
 </sl-alert>
 
 <br />
@@ -74,7 +75,8 @@ Set the `variant` attribute to change the alert's variant.
 ```
 
 ```jsx:react
-import { SlAlert, SlIcon } from '@shoelace-style/shoelace/dist/react';
+import SlAlert from '@shoelace-style/shoelace/dist/react/alert';
+import SlIcon from '@shoelace-style/shoelace/dist/react/icon';
 
 const App = () => (
   <>
@@ -100,7 +102,7 @@ const App = () => (
       <SlIcon slot="icon" name="gear" />
       <strong>Your settings have been updated</strong>
       <br />
-      Settings will take affect on next login.
+      Settings will take effect on next login.
     </SlAlert>
 
     <br />
@@ -144,7 +146,8 @@ Add the `closable` attribute to show a close button that will hide the alert.
 
 ```jsx:react
 import { useState } from 'react';
-import { SlAlert, SlIcon } from '@shoelace-style/shoelace/dist/react';
+import SlAlert from '@shoelace-style/shoelace/dist/react/alert';
+import SlIcon from '@shoelace-style/shoelace/dist/react/icon';
 
 const App = () => {
   const [open, setOpen] = useState(true);
@@ -172,7 +175,7 @@ Icons are optional. Simply omit the `icon` slot if you don't want them.
 ```
 
 ```jsx:react
-import { SlAlert } from '@shoelace-style/shoelace/dist/react';
+import SlAlert from '@shoelace-style/shoelace/dist/react/alert';
 
 const App = () => (
   <SlAlert variant="primary" open>
@@ -212,7 +215,9 @@ Set the `duration` attribute to automatically hide an alert after a period of ti
 
 ```jsx:react
 import { useState } from 'react';
-import { SlAlert, SlButton, SlIcon } from '@shoelace-style/shoelace/dist/react';
+import SlAlert from '@shoelace-style/shoelace/dist/react/alert';
+import SlButton from '@shoelace-style/shoelace/dist/react/button';
+import SlIcon from '@shoelace-style/shoelace/dist/react/icon';
 
 const css = `
   .alert-duration sl-alert {
@@ -271,7 +276,7 @@ You should always use the `closable` attribute so users can dismiss the notifica
   <sl-alert variant="neutral" duration="3000" closable>
     <sl-icon slot="icon" name="gear"></sl-icon>
     <strong>Your settings have been updated</strong><br />
-    Settings will take affect on next login.
+    Settings will take effect on next login.
   </sl-alert>
 
   <sl-alert variant="warning" duration="3000" closable>
@@ -301,7 +306,9 @@ You should always use the `closable` attribute so users can dismiss the notifica
 
 ```jsx:react
 import { useRef } from 'react';
-import { SlAlert, SlButton, SlIcon } from '@shoelace-style/shoelace/dist/react';
+import SlAlert from '@shoelace-style/shoelace/dist/react/alert';
+import SlButton from '@shoelace-style/shoelace/dist/react/button';
+import SlIcon from '@shoelace-style/shoelace/dist/react/icon';
 
 function showToast(alert) {
   alert.toast();
@@ -354,7 +361,7 @@ const App = () => {
         <SlIcon slot="icon" name="gear" />
         <strong>Your settings have been updated</strong>
         <br />
-        Settings will take affect on next login.
+        Settings will take effect on next login.
       </SlAlert>
 
       <SlAlert ref={warning} variant="warning" duration="3000" closable>

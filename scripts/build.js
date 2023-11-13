@@ -11,6 +11,8 @@ import getPort, { portNumbers } from 'get-port';
 import ora from 'ora';
 import util from 'util';
 import * as path from 'path';
+import { readFileSync } from 'fs';
+import { replace } from 'esbuild-plugin-replace';
 
 const { serve, nutria } = commandLineArgs([
   { name: 'serve', type: Boolean },
@@ -25,6 +27,8 @@ let childProcess;
 let buildResults;
 
 const bundleDirectories = [cdndir, outdir];
+let packageData = JSON.parse(readFileSync(path.join(process.cwd(), 'package.json'), 'utf-8'));
+const shoelaceVersion = JSON.stringify(packageData.version.toString());
 
 //
 // Runs 11ty and builds the docs. The returned promise resolves after the initial publish has completed. The child
@@ -33,6 +37,9 @@ const bundleDirectories = [cdndir, outdir];
 async function buildTheDocs(watch = false) {
   return new Promise(async (resolve, reject) => {
     const afterSignal = '[eleventy.after]';
+
+    // Totally non-scientific way to handle errors. Perhaps its just better to resolve on stderr? :shrug:
+    const errorSignal = 'Original error stack trace:';
     const args = ['@11ty/eleventy', '--quiet'];
     const output = [];
 
@@ -52,12 +59,23 @@ async function buildTheDocs(watch = false) {
       output.push(data.toString());
     });
 
+    child.stderr.on('data', data => {
+      output.push(data.toString());
+    });
+
     if (watch) {
       // The process doesn't terminate in watch mode so, before resolving, we listen for a known signal in stdout that
       // tells us when the first build completes.
       child.stdout.on('data', data => {
         if (data.includes(afterSignal)) {
           resolve({ child, output });
+        }
+      });
+
+      child.stderr.on('data', data => {
+        if (data.includes(errorSignal)) {
+          // This closes the dev server, not sure if thats what we want?
+          reject(output);
         }
       });
     } else {
@@ -72,7 +90,7 @@ async function buildTheDocs(watch = false) {
 // Builds the source with esbuild.
 //
 async function buildTheSource() {
-  const alwaysExternal = ['@lit-labs/react', 'react'];
+  const alwaysExternal = ['@lit/react', 'react'];
 
   const cdnConfig = {
     format: 'esm',
@@ -107,17 +125,22 @@ async function buildTheSource() {
     // We don't bundle certain dependencies in the unbundled build. This ensures we ship bare module specifiers,
     // allowing end users to better optimize when using a bundler. (Only packages that ship ESM can be external.)
     //
-    // We never bundle React or @lit-labs/react though!
+    // We never bundle React or @lit/react though!
     //
     external: alwaysExternal,
     splitting: true,
-    plugins: []
+    plugins: [
+      replace({
+        __SHOELACE_VERSION__: shoelaceVersion
+      })
+    ]
   };
 
   const npmConfig = {
     ...cdnConfig,
-    bundle: false,
     external: undefined,
+    minify: false,
+    packages: 'external',
     outdir
   };
 
@@ -182,14 +205,6 @@ if (!nutria) {
   await nextTask('Wrapping components for React', () => {
     return execPromise(`node scripts/make-react.js --outdir "${outdir}"`, { stdio: 'inherit' });
   });
-
-  await nextTask('Generating Web Types', () => {
-    return execPromise(`node scripts/make-web-types.js --outdir "${outdir}"`, { stdio: 'inherit' });
-  });
-
-  await nextTask('Packaging up icons', () => {
-    return execPromise(`node scripts/make-icons.js --outdir "${outdir}"`, { stdio: 'inherit' });
-  });
 }
 
 await nextTask('Generating themes', () => {
@@ -201,7 +216,7 @@ await nextTask('Running the TypeScript compiler', () => {
 });
 
 // Copy the above steps to the CDN directory directly so we don't need to twice the work for nothing.
-await nextTask(`Copying Web Types, Themes, Icons, and TS Types to "${cdndir}"`, async () => {
+await nextTask(`Themes, Icons, and TS Types to "${cdndir}"`, async () => {
   await deleteAsync(cdndir);
   await copy(outdir, cdndir);
 });
@@ -310,7 +325,7 @@ if (serve) {
 }
 
 // Build for production
-if (!serve) {
+if (!serve && !nutria) {
   let result;
 
   await nextTask('Building the docs', async () => {

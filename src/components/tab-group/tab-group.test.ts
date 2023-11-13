@@ -7,10 +7,10 @@ import { queryByTestId } from '../../internal/test/data-testid-helpers.js';
 import { sendKeys } from '@web/test-runner-commands';
 import { waitForScrollingToEnd } from '../../internal/test/wait-for-scrolling.js';
 import type { HTMLTemplateResult } from 'lit';
+import type { SlTabShowEvent } from '../../events/sl-tab-show.js';
 import type SlTab from '../tab/tab.js';
 import type SlTabGroup from './tab-group.js';
 import type SlTabPanel from '../tab-panel/tab-panel.js';
-import type SlTabShowEvent from '../../events/sl-tab-show.js';
 
 interface ClientRectangles {
   body?: DOMRect;
@@ -187,8 +187,10 @@ describe('<sl-tab-group>', () => {
     const generateTabs = (n: number): HTMLTemplateResult[] => {
       const result: HTMLTemplateResult[] = [];
       for (let i = 0; i < n; i++) {
-        result.push(html`<sl-tab slot="nav" panel="tab-${i}">Tab ${i}</sl-tab>
-          <sl-tab-panel name="tab-${i}">Content of tab ${i}0</sl-tab-panel> `);
+        result.push(
+          html`<sl-tab slot="nav" panel="tab-${i}">Tab ${i}</sl-tab>
+            <sl-tab-panel name="tab-${i}">Content of tab ${i}0</sl-tab-panel> `
+        );
       }
       return result;
     };

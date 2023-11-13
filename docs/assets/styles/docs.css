@@ -180,7 +180,10 @@ p {
 
 img {
   max-width: 100%;
-  border-radius: var(--docs-border-radius);
+}
+
+.badges img {
+  border-radius: var(--sl-border-radius-medium);
 }
 
 .callout img,
@@ -232,8 +235,11 @@ code {
 kbd {
   background: var(--sl-color-neutral-100);
   border: solid 1px var(--sl-color-neutral-200);
-  box-shadow: inset 0 1px 0 0 var(--sl-color-neutral-0), inset 0 -1px 0 0 var(--sl-color-neutral-200);
+  box-shadow:
+    inset 0 1px 0 0 var(--sl-color-neutral-0),
+    inset 0 -1px 0 0 var(--sl-color-neutral-200);
   font-family: var(--sl-font-mono);
+  font-size: 0.9125em;
   border-radius: var(--docs-border-radius);
   color: var(--sl-color-neutral-800);
   padding: 0.125em 0.4em;
@@ -390,6 +396,10 @@ table td p:last-child {
   overflow-x: auto;
 }
 
+.table-scroll code {
+  white-space: nowrap;
+}
+
 th.table-name,
 th.table-event-detail {
   min-width: 15ch;
@@ -498,44 +508,39 @@ pre .token.italic {
 
 /* Copy code button */
 .copy-code-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background: var(--sl-color-neutral-0);
-  border-radius: calc(var(--docs-border-radius) * 0.875);
-  border: solid 1px var(--sl-color-neutral-200);
+  top: 0;
+  right: 0;
+  white-space: normal;
   color: var(--sl-color-neutral-800);
-  text-transform: uppercase;
-  padding: 0.5rem;
-  margin: 0;
-  cursor: pointer;
-  transition: 100ms opacity, 100ms scale;
+  transition:
+    150ms opacity,
+    150ms scale;
 }
 
-.copy-code-button svg {
-  width: 1rem;
-  height: 1rem;
+.copy-code-button::part(button) {
+  background-color: var(--sl-color-neutral-50);
+  border-radius: 0 var(--docs-border-radius) 0 var(--docs-border-radius);
+  padding: 0.75rem;
+}
+
+.copy-code-button::part(button):hover {
+  background-color: color-mix(in oklch, var(--sl-color-neutral-50), var(--sl-color-neutral-1000) 3%);
+}
+
+.copy-code-button::part(button):active {
+  background-color: color-mix(in oklch, var(--sl-color-neutral-50), var(--sl-color-neutral-1000) 6%);
 }
 
 pre .copy-code-button {
   opacity: 0;
-  scale: 0.9;
+  scale: 0.75;
 }
 
 pre:hover .copy-code-button,
-.copy-code-button:focus-visible {
+.copy-code-button:focus-within {
   opacity: 1;
   scale: 1;
-}
-
-pre:hover .copy-code-button:hover,
-pre:hover .copy-code-button--copied {
-  background: var(--sl-color-neutral-200);
-  border-color: var(--sl-color-neutral-300);
-  color: var(--sl-color-neutral-900);
 }
 
 /* Callouts */
@@ -658,6 +663,7 @@ pre:hover .copy-code-button--copied {
   margin: -1rem;
   cursor: pointer;
   user-select: none;
+  -webkit-user-select: none;
 }
 
 .content details summary span {
@@ -981,7 +987,9 @@ main {
   padding: 0.5rem;
   margin: 0;
   cursor: pointer;
-  transition: 250ms scale ease, 250ms rotate ease;
+  transition:
+    250ms scale ease,
+    250ms rotate ease;
 }
 
 @media screen and (max-width: 900px) {
@@ -1058,23 +1066,29 @@ html.sidebar-open #menu-toggle {
   /* Hide when not defined to prevent extra wide icon toolbar while loading */
   display: none;
 }
+
 #theme-selector sl-menu {
-  /* Set an initial size to prevent width being initally too small when first opening on small screen width */
+  /* Set an initial size to prevent width being too small when first opening on small screen width */
   width: 140px;
 }
+
 #theme-selector sl-button {
   transition: 250ms scale ease;
 }
+
 #theme-selector sl-button::part(base) {
   color: var(--sl-color-neutral-0);
 }
+
 #theme-selector sl-button::part(label) {
   display: flex;
   padding: 0.5rem;
 }
+
 #theme-selector sl-icon {
   font-size: 1.25rem;
 }
+
 .sl-theme-dark #theme-selector sl-button::part(base) {
   color: var(--sl-color-neutral-1000);
 }

@@ -7,7 +7,7 @@ layout: component
 
 Dropdowns consist of a trigger and a panel. By default, activating the trigger will expose the panel and interacting outside of the panel will close it.
 
-Dropdowns are designed to work well with [menus](/components/menu) to provide a list of options the user can select from. However, dropdowns can also be used in lower-level applications (e.g. [color picker](/components/color-picker) and [select](/components/select)). The API gives you complete control over showing, hiding, and positioning the panel.
+Dropdowns are designed to work well with [menus](/components/menu) to provide a list of options the user can select from. However, dropdowns can also be used in lower-level applications (e.g. [color picker](/components/color-picker)). The API gives you complete control over showing, hiding, and positioning the panel.
 
 ```html:preview
 <sl-dropdown>
@@ -33,7 +33,12 @@ Dropdowns are designed to work well with [menus](/components/menu) to provide a 
 ```
 
 ```jsx:react
-import { SlButton, SlDivider, SlDropdown, SlIcon, SlMenu, SlMenuItem } from '@shoelace-style/shoelace/dist/react';
+import SlButton from '@shoelace-style/shoelace/dist/react/button';
+import SlDivider from '@shoelace-style/shoelace/dist/react/divider';
+import SlDropdown from '@shoelace-style/shoelace/dist/react/dropdown';
+import SlIcon from '@shoelace-style/shoelace/dist/react/icon';
+import SlMenu from '@shoelace-style/shoelace/dist/react/menu';
+import SlMenuItem from '@shoelace-style/shoelace/dist/react/menu-item';
 
 const App = () => (
   <SlDropdown>
@@ -93,7 +98,10 @@ When dropdowns are used with [menus](/components/menu), you can listen for the [
 ```
 
 ```jsx:react
-import { SlButton, SlDropdown, SlMenu, SlMenuItem } from '@shoelace-style/shoelace/dist/react';
+import SlButton from '@shoelace-style/shoelace/dist/react/button';
+import SlDropdown from '@shoelace-style/shoelace/dist/react/dropdown';
+import SlMenu from '@shoelace-style/shoelace/dist/react/menu';
+import SlMenuItem from '@shoelace-style/shoelace/dist/react/menu-item';
 
 const App = () => {
   function handleSelect(event) {
@@ -143,7 +151,10 @@ Alternatively, you can listen for the `click` event on individual menu items. No
 ```
 
 ```jsx:react
-import { SlButton, SlDropdown, SlMenu, SlMenuItem } from '@shoelace-style/shoelace/dist/react';
+import SlButton from '@shoelace-style/shoelace/dist/react/button';
+import SlDropdown from '@shoelace-style/shoelace/dist/react/dropdown';
+import SlMenu from '@shoelace-style/shoelace/dist/react/menu';
+import SlMenuItem from '@shoelace-style/shoelace/dist/react/menu-item';
 
 const App = () => {
   function handleCut() {
@@ -192,7 +203,11 @@ The preferred placement of the dropdown can be set with the `placement` attribut
 ```
 
 ```jsx:react
-import { SlButton, SlDivider, SlDropdown, SlMenu, SlMenuItem } from '@shoelace-style/shoelace/dist/react';
+import SlButton from '@shoelace-style/shoelace/dist/react/button';
+import SlDivider from '@shoelace-style/shoelace/dist/react/divider';
+import SlDropdown from '@shoelace-style/shoelace/dist/react/dropdown';
+import SlMenu from '@shoelace-style/shoelace/dist/react/menu';
+import SlMenuItem from '@shoelace-style/shoelace/dist/react/menu-item';
 
 const App = () => (
   <SlDropdown placement="top-start">
@@ -230,7 +245,11 @@ The distance from the panel to the trigger can be customized using the `distance
 ```
 
 ```jsx:react
-import { SlButton, SlDivider, SlDropdown, SlMenu, SlMenuItem } from '@shoelace-style/shoelace/dist/react';
+import SlButton from '@shoelace-style/shoelace/dist/react/button';
+import SlDivider from '@shoelace-style/shoelace/dist/react/divider';
+import SlDropdown from '@shoelace-style/shoelace/dist/react/dropdown';
+import SlMenu from '@shoelace-style/shoelace/dist/react/menu';
+import SlMenuItem from '@shoelace-style/shoelace/dist/react/menu-item';
 
 const App = () => (
   <SlDropdown distance={30}>
@@ -268,7 +287,11 @@ The offset of the panel along the trigger can be customized using the `skidding`
 ```
 
 ```jsx:react
-import { SlButton, SlDivider, SlDropdown, SlMenu, SlMenuItem } from '@shoelace-style/shoelace/dist/react';
+import SlButton from '@shoelace-style/shoelace/dist/react/button';
+import SlDivider from '@shoelace-style/shoelace/dist/react/divider';
+import SlDropdown from '@shoelace-style/shoelace/dist/react/dropdown';
+import SlMenu from '@shoelace-style/shoelace/dist/react/menu';
+import SlMenuItem from '@shoelace-style/shoelace/dist/react/menu-item';
 
 const App = () => (
   <SlDropdown skidding={30}>
@@ -286,6 +309,96 @@ const App = () => (
   </SlDropdown>
 );
 ```
+
+### Submenus
+
+To create a submenu, nest an `<sl-menu slot="submenu">` element in a [menu item](/components/menu-item).
+
+```html:preview
+<sl-dropdown>
+  <sl-button slot="trigger" caret>Edit</sl-button>
+
+  <sl-menu style="max-width: 200px;">
+    <sl-menu-item value="undo">Undo</sl-menu-item>
+    <sl-menu-item value="redo">Redo</sl-menu-item>
+    <sl-divider></sl-divider>
+    <sl-menu-item value="cut">Cut</sl-menu-item>
+    <sl-menu-item value="copy">Copy</sl-menu-item>
+    <sl-menu-item value="paste">Paste</sl-menu-item>
+    <sl-divider></sl-divider>
+    <sl-menu-item>
+      Find
+      <sl-menu slot="submenu">
+        <sl-menu-item value="find">Find…</sl-menu-item>
+        <sl-menu-item value="find-previous">Find Next</sl-menu-item>
+        <sl-menu-item value="find-next">Find Previous</sl-menu-item>
+      </sl-menu>
+    </sl-menu-item>
+    <sl-menu-item>
+      Transformations
+      <sl-menu slot="submenu">
+        <sl-menu-item value="uppercase">Make uppercase</sl-menu-item>
+        <sl-menu-item value="lowercase">Make lowercase</sl-menu-item>
+        <sl-menu-item value="capitalize">Capitalize</sl-menu-item>
+      </sl-menu>
+    </sl-menu-item>
+  </sl-menu>
+</sl-dropdown>
+```
+
+```jsx:react
+import SlButton from '@shoelace-style/shoelace/dist/react/button';
+import SlDivider from '@shoelace-style/shoelace/dist/react/divider';
+import SlDropdown from '@shoelace-style/shoelace/dist/react/dropdown';
+import SlMenu from '@shoelace-style/shoelace/dist/react/menu';
+import SlMenuItem from '@shoelace-style/shoelace/dist/react/menu-item';
+
+const css = `
+  .dropdown-hoist {
+    border: solid 2px var(--sl-panel-border-color);
+    padding: var(--sl-spacing-medium);
+    overflow: hidden;
+  }
+`;
+
+const App = () => (
+  <>
+    <SlDropdown>
+      <SlButton slot="trigger" caret>Edit</SlButton>
+
+      <SlMenu style="max-width: 200px;">
+        <SlMenuItem value="undo">Undo</SlMenuItem>
+        <SlMenuItem value="redo">Redo</SlMenuItem>
+        <SlDivider />
+        <SlMenuItem value="cut">Cut</SlMenuItem>
+        <SlMenuItem value="copy">Copy</SlMenuItem>
+        <SlMenuItem value="paste">Paste</SlMenuItem>
+        <SlDivider />
+        <SlMenuItem>
+          Find
+          <SlMenu slot="submenu">
+            <SlMenuItem value="find">Find…</SlMenuItem>
+            <SlMenuItem value="find-previous">Find Next</SlMenuItem>
+            <SlMenuItem value="find-next">Find Previous</SlMenuItem>
+          </SlMenu>
+        </SlMenuItem>
+        <SlMenuItem>
+          Transformations
+          <SlMenu slot="submenu">
+            <SlMenuItem value="uppercase">Make uppercase</SlMenuItem>
+            <SlMenuItem value="lowercase">Make lowercase</SlMenuItem>
+            <SlMenuItem value="capitalize">Capitalize</SlMenuItem>
+          </SlMenu>
+        </SlMenuItem>
+      </SlMenu>
+    </SlDropdown>
+  </>
+);
+```
+
+:::warning
+As a UX best practice, avoid using more than one level of submenu when possible.
+:::
 
 ### Hoisting
 
@@ -323,7 +436,11 @@ Dropdown panels will be clipped if they're inside a container that has `overflow
 ```
 
 ```jsx:react
-import { SlButton, SlDivider, SlDropdown, SlIcon, SlMenu, SlMenuItem } from '@shoelace-style/shoelace/dist/react';
+import SlButton from '@shoelace-style/shoelace/dist/react/button';
+import SlDivider from '@shoelace-style/shoelace/dist/react/divider';
+import SlDropdown from '@shoelace-style/shoelace/dist/react/dropdown';
+import SlMenu from '@shoelace-style/shoelace/dist/react/menu';
+import SlMenuItem from '@shoelace-style/shoelace/dist/react/menu-item';
 
 const css = `
   .dropdown-hoist {
